@@ -558,6 +558,17 @@ int gui(const vector<string> &inputFiles, const fs::path &original_path, int arg
 
 int main(int argc, char **argv)
 {
+
+	/*
+
+	Add possibility of building an objet from a scad string here
+	Also remove all GUI parts of OpenSCAD to make OpenSCAD only a "calculator"
+	Maybe also try to make a function that will take a float pointer as parameter and give its STL vertices positions, faces, etc.
+
+	current use : openscad -o mystl.stl myscad.scad
+
+	*/
+
 	int rc = 0;
 #ifdef Q_WS_MAC
 	set_output_handler(CocoaUtils::nslog, NULL);

@@ -36,7 +36,7 @@ win* {
 }
 debug: DEFINES += DEBUG
 
-TEMPLATE = app
+TEMPLATE = lib
 
 INCLUDEPATH += src
 DEPENDPATH += src
