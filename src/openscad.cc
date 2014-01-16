@@ -443,6 +443,8 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 #define OPENSCAD_QTGUI 1
 #endif
 
+#undef OPENSCAD_QTGUI
+
 
 #ifdef OPENSCAD_QTGUI
 #include "MainWindow.h"
