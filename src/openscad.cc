@@ -198,7 +198,7 @@ Camera get_camera( po::variables_map vm )
 	return camera;
 }
 
-int cmdline(const char *deps_output_file, const std::string &filename, Camera &camera, const char *output_file, const fs::path &original_path, Render::type renderer, int argc, char ** argv )
+int cmdline(const char *deps_output_file, const std::string &filename, Camera &camera, const char *output_file, const fs::path &original_path, Render::type renderer, int argc, char ** argv, bool isText = false )
 {
 #ifdef OPENSCAD_QTGUI
 	QCoreApplication app(argc, argv);
@@ -253,14 +253,19 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 	AbstractNode *absolute_root_node;
 	CGAL_Nef_polyhedron root_N;
 
-	handle_dep(filename.c_str());
+	std::string text;
+	if (!isText) {
+		handle_dep(filename.c_str());
 
-	std::ifstream ifs(filename.c_str());
-	if (!ifs.is_open()) {
-		PRINTB("Can't open input file '%s'!\n", filename.c_str());
-		return 1;
+		std::ifstream ifs(filename.c_str());
+		if (!ifs.is_open()) {
+			PRINTB("Can't open input file '%s'!\n", filename.c_str());
+			return 1;
+		}
+		text = std::string((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
+	} else {
+		text = std::string(filename.c_str());
 	}
-	std::string text((std::istreambuf_iterator<char>(ifs)), std::istreambuf_iterator<char>());
 	text += "\n" + commandline_commands;
 	fs::path abspath = boosty::absolute(filename);
 	std::string parentpath = boosty::stringy(abspath.parent_path());
@@ -560,13 +565,8 @@ int gui(const vector<string> &inputFiles, const fs::path &original_path, int arg
 }
 #endif // OPENSCAD_QTGUI
 
-extern "C" void quit() {
-	printf("Exiting...\n");
-	exit(0);
-}
-
 //Function that will run a command line of OpenSCAD to keep our instance in memory
-extern "C" int buildSTLFromSCAD(char *filename = NULL, char *output_file = NULL) {
+extern "C" int buildSTLFromSCAD(char *filename = NULL, char *output_file = NULL, unsigned int isText=0) {
 	printf("Initializing...\n");
 
 	po::options_description desc("Allowed options");
@@ -608,7 +608,7 @@ extern "C" int buildSTLFromSCAD(char *filename = NULL, char *output_file = NULL)
 		Render::type renderer = Render::OPENCSG;
 
 		int rc;
-		rc = cmdline(NULL, filename, camera, output_file, original_path, renderer, argc, argv);
+		rc = cmdline(NULL, filename, camera, output_file, original_path, renderer, argc, argv, isText == 0 ? false : true);
 
 		return rc;
 	} else {
