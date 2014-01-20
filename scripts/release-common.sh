@@ -120,7 +120,7 @@ echo "Building openscad-$VERSION ($VERSIONDATE) $CONFIGURATION..."
 
 if [ ! $NUMCPU ]; then
   echo "note: you can 'export NUMCPU=x' for multi-core compiles (x=number)";
-  NUMCPU=1
+  NUMCPU=4
 fi
 echo "NUMCPU: " $NUMCPU
 

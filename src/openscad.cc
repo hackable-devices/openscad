@@ -368,9 +368,12 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 				PRINT("Object isn't a valid 2-manifold! Modify your design.\n");
 				return 1;
 			}
-			std::ofstream fstream(stl_output_file);
+
+			std::ofstream fstream(stl_output_file, std::ios::out);
 			if (!fstream.is_open()) {
 				PRINTB("Can't open file \"%s\" for export", stl_output_file);
+				PRINTB("\"%s\"", stl_output_file);
+				return 1;
 			}
 			else {
 				export_stl(&root_N, fstream);
@@ -442,7 +445,6 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 #else
 #define OPENSCAD_QTGUI 1
 #endif
-
 #undef OPENSCAD_QTGUI
 
 
@@ -558,18 +560,66 @@ int gui(const vector<string> &inputFiles, const fs::path &original_path, int arg
 }
 #endif // OPENSCAD_QTGUI
 
+extern "C" void quit() {
+	printf("Exiting...\n");
+	exit(0);
+}
+
+//Function that will run a command line of OpenSCAD to keep our instance in memory
+extern "C" int buildSTLFromSCAD(char *filename = NULL, char *output_file = NULL) {
+	printf("Initializing...\n");
+
+	po::options_description desc("Allowed options");
+	desc.add_options()
+		("o,o", po::value<string>(), "out-file");
+
+	po::options_description hidden("Hidden options");
+	hidden.add_options()
+		("input-file", po::value< vector<string> >(), "input file");
+
+	po::positional_options_description p;
+	p.add("input-file", -1);
+	
+	po::options_description all_options;
+	all_options.add(desc).add(hidden);
+
+	if (filename != NULL && output_file != NULL) {
+
+		int argc = 3;
+		char *argv[] = {
+			(char*)"openscad",
+			output_file,
+			filename
+		};
+
+		printf("Exporting to STL...\n");
+
+		//INITIALIZE COMPONENTS OF OPENSCAD
+		Builtins::instance()->initialize();
+
+		po::variables_map vm;
+		Camera camera = get_camera( vm );
+
+		po::positional_options_description p;
+		p.add("input-file", -1);
+		po::store(po::command_line_parser(argc, argv).options(all_options).allow_unregistered().positional(p).run(), vm);
+
+		fs::path original_path = fs::current_path();
+		Render::type renderer = Render::OPENCSG;
+
+		int rc;
+		rc = cmdline(NULL, filename, camera, output_file, original_path, renderer, argc, argv);
+
+		return rc;
+	} else {
+		return 1;
+	}
+}
+
 int main(int argc, char **argv)
 {
-
-	/*
-
-	Add possibility of building an objet from a scad string here
-	Also remove all GUI parts of OpenSCAD to make OpenSCAD only a "calculator"
-	Maybe also try to make a function that will take a float pointer as parameter and give its STL vertices positions, faces, etc.
-
-	current use : openscad -o mystl.stl myscad.scad
-
-	*/
+	//gargc = argc;
+	//gargv = argv;
 
 	int rc = 0;
 #ifdef Q_WS_MAC

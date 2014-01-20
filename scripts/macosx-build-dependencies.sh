@@ -523,7 +523,9 @@ build_gettext 0.18.3.1
 build_libffi 3.0.13
 build_glib2 2.38.2
 build_opencsg 1.3.2
+##build_sparkle andymatuschak 0ed83cf9f2eeb425d4fdd141c01a29d843970c20
+build_sparkle Cocoanetics 1e7dcb1a48b96d1a8c62100b5864bd50211cbae1
 if $OPTION_DEPLOY; then
 #  build_sparkle andymatuschak 0ed83cf9f2eeb425d4fdd141c01a29d843970c20
-  build_sparkle Cocoanetics 1e7dcb1a48b96d1a8c62100b5864bd50211cbae1
+#  build_sparkle Cocoanetics 1e7dcb1a48b96d1a8c62100b5864bd50211cbae1
 fi

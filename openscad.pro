@@ -92,14 +92,14 @@ win* {
 }
 
 CONFIG += qt
-#QT += opengl
+QT += opengl
 
 # see http://fedoraproject.org/wiki/UnderstandingDSOLinkChange
 # and https://github.com/openscad/openscad/pull/119
 # ( QT += opengl does not automatically link glu on some DSO systems. )
 unix:!macx {
-  #QMAKE_LIBS_OPENGL *= -lGLU
-  #QMAKE_LIBS_OPENGL *= -lX11
+  QMAKE_LIBS_OPENGL *= -lGLU
+  QMAKE_LIBS_OPENGL *= -lX11
 }
 
 netbsd* {
@@ -163,7 +163,7 @@ mdi {
   DEFINES += ENABLE_MDI
 }
 
-#DEFINES += USE_PROGRESSWIDGET
+DEFINES += USE_PROGRESSWIDGET
 
 include(common.pri)
 
@@ -182,8 +182,8 @@ win* {
 
 RESOURCES = openscad.qrc
 
-FORMS   += src/Preferences.ui \
-	   #src/MainWindow.ui \
+FORMS   += src/MainWindow.ui \
+           src/Preferences.ui \
            src/OpenCSGWarningDialog.ui \
            src/AboutDialog.ui \
            src/ProgressWidget.ui
@@ -197,9 +197,9 @@ HEADERS += src/typedefs.h \
            src/ThrownTogetherRenderer.h \
            src/CGAL_renderer.h \
            src/OGL_helper.h \
-           #src/QGLView.h \
-           #src/GLView.h \
-           #src/MainWindow.h \
+           src/QGLView.h \
+           src/GLView.h \
+           src/MainWindow.h \
            src/Preferences.h \
            src/OpenCSGWarningDialog.h \
            src/AboutDialog.h \
@@ -320,8 +320,8 @@ SOURCES += src/version_check.cc \
            src/Preferences.cc \
            src/OpenCSGWarningDialog.cc \
            src/editor.cc \
-           #src/GLView.cc \
-           #src/QGLView.cc \
+           src/GLView.cc \
+           src/QGLView.cc \
            src/AutoUpdater.cc \
            \
            src/builtin.cc \
@@ -343,7 +343,7 @@ SOURCES += src/version_check.cc \
            src/lodepng.cpp \
            \
            src/openscad.cc \
-           #src/mainwin.cc
+           src/mainwin.cc
 
 unix:!macx {
   SOURCES += src/imageutils-lodepng.cc
