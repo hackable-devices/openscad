@@ -202,11 +202,16 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 {
 #ifdef OPENSCAD_QTGUI
 	QCoreApplication app(argc, argv);
-	const std::string application_path = QApplication::instance()->applicationDirPath().toLocal8Bit().constData();
+	if (!isText) {
+		const std::string application_path = QApplication::instance()->applicationDirPath().toLocal8Bit().constData();
 #else
-	const std::string application_path = boosty::stringy(boosty::absolute(boost::filesystem::path(argv[0]).parent_path()));
+	if (!isText) {
+		const std::string application_path = boosty::stringy(boosty::absolute(boost::filesystem::path(argv[0]).parent_path()));
 #endif
-	parser_init(application_path);
+		parser_init(application_path);
+	} else {
+		parser_init("test.scad");
+	}
 	Tree tree;
 #ifdef ENABLE_CGAL
 	CGALEvaluator cgalevaluator(tree);
@@ -267,7 +272,12 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 		text = std::string(filename.c_str());
 	}
 	text += "\n" + commandline_commands;
-	fs::path abspath = boosty::absolute(filename);
+	fs::path abspath;
+	if (!isText) {
+		abspath = boosty::absolute(filename);
+	} else {
+		abspath = boosty::absolute("test.scad");
+	}
 	std::string parentpath = boosty::stringy(abspath.parent_path());
 	root_module = parse(text.c_str(), parentpath.c_str(), false);
 	if (!root_module) {
@@ -276,7 +286,12 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 	}
 	root_module->handleDependencies();
 
-	fs::path fpath = boosty::absolute(fs::path(filename));
+	fs::path fpath;
+	if (!isText) {
+		fpath = boosty::absolute(fs::path(filename));
+	} else {
+		fpath = boosty::absolute(fs::path("test.scad"));
+	}
 	fs::path fparent = fpath.parent_path();
 	fs::current_path(fparent);
 	top_ctx.setDocumentPath(fparent.string());
