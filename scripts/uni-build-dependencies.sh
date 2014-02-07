@@ -572,7 +572,7 @@ SRCDIR=$BASEDIR/src
 
 if [ ! $NUMCPU ]; then
   echo "Note: The NUMCPU environment variable can be set for paralell builds"
-  NUMCPU=1
+  NUMCPU=4
 fi
 
 if [ ! -d $BASEDIR/bin ]; then

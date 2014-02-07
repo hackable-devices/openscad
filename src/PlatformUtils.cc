@@ -111,7 +111,7 @@ std::string PlatformUtils::info()
 	s << "OpenSCAD Version: " << TOSTRING(OPENSCAD_VERSION)
           << "\nCompiler, build date: " << compiler_info << ", " << __DATE__
 	  << "\nBoost version: " << BOOST_LIB_VERSION
-	  << "\nEigen version: " << EIGEN_WORLD_VERSION << "." << EIGEN_MAJOR_VERSION << "." << EIGEN_MINOR_VERSION
+	  //<< "\nEigen version: " << EIGEN_WORLD_VERSION << "." << EIGEN_MAJOR_VERSION << "." << EIGEN_MINOR_VERSION
 	  << "\nCGAL version, kernels: " << TOSTRING(CGAL_VERSION) << ", " << cgal_3d_kernel << ", " << cgal_2d_kernel << ", " << cgal_2d_kernelEx
 	  << "\nOpenCSG version: " << OPENCSG_VERSION_STRING
 	  << "\nQt version: " << qtVersion
