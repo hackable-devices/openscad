@@ -15,6 +15,8 @@ OPENSCAD_LIBRARIES_DIR = $$(OPENSCAD_LIBRARIES)
 EIGEN2_DIR = $$(EIGEN2DIR)
 EIGEN_DIR = $$(EIGENDIR)
 
+EIGEN_DIR = "/var/www/objectstore/openscad_deps/include/eigen3"
+
 # Optionally specify location of Eigen3 using the 
 # OPENSCAD_LIBRARIES env. variable
 !isEmpty(OPENSCAD_LIBRARIES_DIR) {

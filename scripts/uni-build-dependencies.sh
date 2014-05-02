@@ -187,10 +187,10 @@ build_gmp()
   cd $BASEDIR/src
   rm -rf gmp-$version
   if [ ! -f gmp-$version.tar.bz2 ]; then
-    curl --insecure -O ftp://ftp.gmplib.org/pub/gmp-$version/gmp-$version.tar.bz2
+    wget ftp://ftp.gmplib.org/pub/gmp-5.0.5/gmp-5.0.5.tar.bz2
   fi
-  tar xjf gmp-$version.tar.bz2
-  cd gmp-$version
+  tar xjf gmp-5.0.5.tar.bz2
+  cd gmp-5.0.5
   mkdir build
   cd build
   ../configure --prefix=$DEPLOYDIR --enable-cxx
@@ -572,7 +572,7 @@ SRCDIR=$BASEDIR/src
 
 if [ ! $NUMCPU ]; then
   echo "Note: The NUMCPU environment variable can be set for paralell builds"
-  NUMCPU=4
+  NUMCPU=1
 fi
 
 if [ ! -d $BASEDIR/bin ]; then
