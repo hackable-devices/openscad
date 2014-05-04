@@ -4,14 +4,29 @@ from cffi import FFI
 ffi = FFI()
 
 ffi.cdef("""
+	int buildSTLFromSCAD(char *filename, char *output_file, unsigned int isText);
 	int main(int argc, char **argv);
-	int buildSTLFromSCAD(const char *filename, const char *output_file);
 """)
 arguments = [ffi.new("char[]", "openscad"), ffi.new("char[]", "-otest.stl"), ffi.new("char[]", "test.scad")]
-filename = ffi.new("char[]", "test.scad")
-output_file_name = ffi.new("char[]", "test.stl")
 
-lib = ffi.dlopen("./libopenscad.so")
-lib.main(3, arguments)
-#print(lib.main(0, ffi.new("char[]", "")))
-#lib.buildSTLFromSCAD(filename, output_file_name)
+#lib.main(3, arguments)
+
+for i in range(1, 23):
+	filename = ""
+	if i < 10:
+		filename = "/home/vagrant/openscad/examples/example00" + str(i) + ".scad"
+	else:
+		filename = "/home/vagrant/openscad/examples/example0" + str(i) + ".scad"
+	
+	output = "-o" + filename.replace(".scad", ".stl")
+	output = output.replace("/home/vagrant/openscad/examples/", "./")
+
+	arguments = [ffi.new("char[]", "openscad"), ffi.new("char[]", str(output)), ffi.new("char[]", str(filename))]
+	
+	lib = ffi.dlopen("./libopenscad.so")
+	#lib.main(3, arguments)
+	lib.buildSTLFromSCAD(ffi.new("char[]", str(filename)), ffi.new("char[]", str(output)), 0)
+
+#lib.buildSTLFromSCAD(filename_arg, outputfile_arg)
+
+

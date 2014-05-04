@@ -396,6 +396,7 @@ int cmdline(const char *deps_output_file, const std::string &filename, Camera &c
 				return 1;
 			}
 			else {
+				printf("expoting stl in cmdLine");
 				export_stl(&root_N, fstream);
 				fstream.close();
 			}
@@ -622,6 +623,7 @@ extern "C" int buildSTLFromSCAD(char *filename = NULL, char *output_file = NULL,
 		fs::path original_path = fs::current_path();
 		Render::type renderer = Render::OPENCSG;
 
+		printf("executing cmdLine");
 		int rc;
 		rc = cmdline(NULL, filename, camera, output_file, original_path, renderer, argc, argv, isText == 0 ? false : true);
 
