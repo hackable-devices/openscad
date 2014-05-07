@@ -18,7 +18,7 @@ for i in range(1, 23):
 	else:
 		filename = "/home/vagrant/openscad/examples/example0" + str(i) + ".scad"
 	
-	output = "-o" + filename.replace(".scad", ".stl")
+	output = filename.replace(".scad", ".stl")
 	output = output.replace("/home/vagrant/openscad/examples/", "./")
 
 	arguments = [ffi.new("char[]", "openscad"), ffi.new("char[]", str(output)), ffi.new("char[]", str(filename))]
