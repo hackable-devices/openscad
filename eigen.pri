@@ -1,4 +1,4 @@
-# Detect eigen3 + eigen2, then use this priority list to determine
+#Detect eigen3 + eigen2, then use this priority list to determine
 # which eigen to use:
 #
 # Priority
@@ -11,11 +11,11 @@
 eigen {
 
 # read environment variables
-OPENSCAD_LIBRARIES_DIR = $$(OPENSCAD_LIBRARIES)
+OPENSCAD_LIBRARIES_DIR = ../ #$$(OPENSCAD_LIBRARIES)
 EIGEN2_DIR = $$(EIGEN2DIR)
 EIGEN_DIR = $$(EIGENDIR)
 
-EIGEN_DIR = "/var/www/objectstore/openscad_deps/include/eigen3"
+#EIGEN_DIR = "/var/www/objectstore/openscad_deps/include/eigen3"
 
 # Optionally specify location of Eigen3 using the 
 # OPENSCAD_LIBRARIES env. variable

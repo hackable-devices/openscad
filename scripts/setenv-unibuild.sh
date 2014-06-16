@@ -9,12 +9,12 @@ setenv_common()
  if [ ! $BASEDIR ]; then
   if [ -f openscad.pro ]; then
     # if in main openscad dir, put under $HOME
-    BASEDIR=/var/www/objectstore/openscad_deps
+    BASEDIR=$HOME
   else
     # otherwise, assume its being run 'out of tree'. treat it somewhat like
     # "configure" or "cmake", so you can build dependencies where u wish.
     echo "Warning: Not in OpenSCAD src dir... using current directory as base of build"
-    BASEDIR=/var/www/objectstore/openscad_deps
+    BASEDIR=$HOME
   fi
  fi
  DEPLOYDIR=$BASEDIR
